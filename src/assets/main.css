@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-left text-4xl;
+  }
+  body {
+    @apply bg-[theme('colors.background')] text-[theme('colors.secondary')];
+  }
+}

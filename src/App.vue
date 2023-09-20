@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import NavHeader from "./components/NavHeader.vue";
+
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="flex-center">
@@ -18,9 +20,15 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
-  </header>
+  </header> -->
 
-  <RouterView />
+  <main class="xl:max-w-1200 w-full mr-auto ml-auto mt-0 mb-0">
+    
+    <NavHeader/>
+  
+    <RouterView />
+  </main>
+
 </template>
 
 <style scoped>
