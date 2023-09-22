@@ -7,6 +7,6 @@
     @apply text-left text-4xl;
   }
   body {
-    @apply bg-[theme('colors.background')] text-[theme('colors.secondary')];
+    @apply bg-[theme('colors.black')] text-[theme('colors.secondary')];
   }
 }
