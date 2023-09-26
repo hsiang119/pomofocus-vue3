@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/pomofocus_vue3/',
+  base: './',
   plugins: [
     vue({
       script: {
