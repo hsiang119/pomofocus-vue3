@@ -12,6 +12,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundSize: {
+        '0-3': '0 3px',
+      },
+      contrast: {
+        20: '20',
+      },
       strokeDashoffset: {
         0: '0',
         100: '100',
@@ -32,7 +38,7 @@ module.exports = {
         fadeIn: 'fadeIn 0.5s ease-in both',
 				fadeDownIn: 'fadeDownIn 0.5s ease-in both',
 				fadeLeftIn: 'fadeLeftIn 0.5s ease-in both',
-        letterMove: 'letterMove 3s infinite alternate ease-in-out'
+        letterMove: 'letterMove 2.5s infinite alternate ease-in-out'
       },
       keyframes: {
         fadeIn: {
@@ -48,8 +54,8 @@ module.exports = {
 					'100%': { opacity: '1', transform: 'translateX(0)' },
 				},
         letterMove: {
-          from: { letterSpacing: '-2rem', filter: 'blur(20px)' },
-          to: { letterSpacing: '1rem', filter: 'blur(0)' },
+          'from': { letterSpacing: '-0.5rem', filter: 'blur(20px)' },
+          'to': { letterSpacing: '0.5rem', filter: 'blur(0)' },
         }
       },
       zIndex: {
@@ -77,7 +83,21 @@ module.exports = {
           'font-size': '16px',
           'box-shadow': '0 2px 5px rgba(0,0,0, 0.2)',
           'cursor:': 'pointer',
-        }
+        },
+        '.tab-active': {
+
+        },
+        'underline-trigger': {
+          'background': 'linear-gradient(90deg, #ff3c41, #fc0, #0ebeff)',
+          'backgroundSize': '0 3px',
+          'backgroundRepeat': 'no-repeat',
+          'backgroundPosition': '0 100%',
+          'cursor': 'pointer',
+          'transiiton': '1s all'
+        },
+        'underline-trigger-hover': {
+          'backgroundSize': '100% 3px'
+        } 
       };
       addUtilities(newUtilities);
     }),
