@@ -1,9 +1,10 @@
 <script setup lang="ts">
-// import TheWelcome from '../components/TheWelcome.vue'
+import CountdownTimer from '../components/CountdownTimer.vue'
+
 </script>
 
 <template>
-  <main>
-    <!-- <TheWelcome /> -->
+  <main class="w-full">
+    <CountdownTimer/>
   </main>
 </template>
