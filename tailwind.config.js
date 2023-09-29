@@ -14,6 +14,7 @@ module.exports = {
     extend: {
       backgroundSize: {
         '0-3': '0 3px',
+        'transparent': 'transparent'
       },
       contrast: {
         20: '20',
@@ -63,6 +64,9 @@ module.exports = {
 			},
       borderRadius: {
         default: '10px'
+      },
+      boxShadow: {
+        'burger' : '0px 2px 5px rgba(255,101,47,.2)'
       }
     },
   },
