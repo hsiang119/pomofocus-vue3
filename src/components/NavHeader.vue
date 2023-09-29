@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
+import type { NavItem } from "../types";
 
-interface NavItem {
-  id: string;
-  name: string;
-}
 
 const NAV_ITEMS: Ref<NavItem[]> = ref<NavItem[]>([
   {
@@ -33,7 +30,7 @@ const NAV_ITEMS: Ref<NavItem[]> = ref<NavItem[]>([
       <nav class="animate-fadeIn flex items-center gap-2">
           <ul class="flex">
               <li v-for="item in NAV_ITEMS" :key="item.id" class="leading-loose ml-5 min-h-full transition-transform transition-shadow duration-300 hover:translate-y-[2px] active:translate-y-[5px]">
-                  <RouterLink to="/login" class="text-base max-w-prose nav-item ">{{ item.name }}</RouterLink>
+                  <RouterLink :to="`/${item.name.toLowerCase()}`" class="text-base max-w-prose nav-item ">{{ item.name }}</RouterLink>
               </li>
           </ul>
       </nav>

@@ -14,3 +14,8 @@ export interface NotifyConfig {
     body: string, 
     icon: string,
 }
+
+export interface NavItem {
+    id: string;
+    name: string;
+}

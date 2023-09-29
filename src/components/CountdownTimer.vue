@@ -34,7 +34,6 @@
     const onChangeTab = (value: string): void => {
         activeTab.value = value;
         time.onStop();
-        // isActive.value = false;
         switchMode(value);
     }
 
@@ -53,14 +52,14 @@
                     @click="onChangeTab(item.title)" 
                     :class="{ 'tab-active': activeTab === item.title }"
                     class="block item h-auto hover:text-cyan-500 border-transparent border-b-2 hover:border-b-cyan-500 hover:transition duration-500"
-                    v-for="item in COUNTDOWN_MODE" 
+                    v-for="item in COUNTDOWN_MODE"
                     :key="item.id"
                 >
                     {{ item.title }}
                 </li>
             </ul>
             <NormalTimer
-                :isActive="isActive"
+                :isActive="isActive" 
                 :mode="mode"
                 :remainingTime="remainingTime"
                 @handle-time-count-down="handleTimeCountDown"
