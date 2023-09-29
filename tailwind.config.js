@@ -90,7 +90,7 @@ module.exports = {
           'backgroundRepeat': 'no-repeat',
           'backgroundPosition': '0 100%',
           'cursor': 'pointer',
-          'transiiton': '1s all'
+          'transition': '1s all'
         },
         'underline-trigger-hover': {
           'backgroundSize': '100% 3px'
