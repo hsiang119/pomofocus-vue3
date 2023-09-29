@@ -84,9 +84,6 @@ module.exports = {
           'box-shadow': '0 2px 5px rgba(0,0,0, 0.2)',
           'cursor:': 'pointer',
         },
-        '.tab-active': {
-
-        },
         'underline-trigger': {
           'background': 'linear-gradient(90deg, #ff3c41, #fc0, #0ebeff)',
           'backgroundSize': '0 3px',
