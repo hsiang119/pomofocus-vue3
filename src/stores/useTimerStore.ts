@@ -7,8 +7,15 @@ export const useTimerStore = defineStore('timer', () => {
   const isActive = ref<boolean>(false);
 
   function changeActiveStatus(): void {
-    isActive.value = !isActive.value
+    isActive.value = !isActive.value;
   };
+  
+  function onStop():void {
+    isActive.value = false;
+  }
 
-  return { mode, isActive, changeActiveStatus }
+  function onStart():void {
+    isActive.value = true;
+  }
+  return { mode, isActive, changeActiveStatus, onStop, onStart }
 })
