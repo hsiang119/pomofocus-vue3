@@ -9,3 +9,8 @@ export interface countdown_mode {
     title: 'Pomodoro' | 'Short Break' | 'Long Break',
     time: string
 }
+
+export interface NotifyConfig {
+    body: string, 
+    icon: string,
+}
