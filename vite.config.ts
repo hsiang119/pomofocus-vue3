@@ -5,10 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
-  build: {
-    outDir: 'doc',
-  },
+  base: '/pomofocus-vue3',
   plugins: [
     vue({
       script: {
