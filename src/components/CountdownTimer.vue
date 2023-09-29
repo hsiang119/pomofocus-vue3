@@ -1,19 +1,17 @@
 <script setup lang="ts">
-    import { ref, type Ref } from "vue";
-    import CircularProgressBar from "./CircularProgressBar.vue";
+    import { ref, type Ref, onMounted } from "vue";
+    import NormalTimer from "./NormalTimer.vue";
     import { useTimerStore } from "../stores/useTimerStore";
     import { storeToRefs } from "pinia";
-    import { useCountDown } from "../composables/useCountDown";
+    import { useCountDown } from "@/composables/useCountDown";
+    import type { countdown_mode, NotifyConfig } from "@/types";
 
-    interface countdown_mode {
-        id: number,
-        title: 'Pomodoro' | 'Short Break' | 'Long Break',
-        time: string
-    }
 
     const time = useTimerStore();
-    const { isActive, mode } = storeToRefs(time);
+    const { isActive, mode, ...rest } = storeToRefs(time);
     const { switchMode, remainingTime } = useCountDown();
+    const activeTab = ref<string>("Pomodoro");
+    
 
     const COUNTDOWN_MODE:Ref<countdown_mode[]> = ref<countdown_mode[]>([
         {
@@ -34,6 +32,9 @@
     ])
     
     const onChangeTab = (value: string): void => {
+        activeTab.value = value;
+        time.onStop();
+        // isActive.value = false;
         switchMode(value);
     }
 
@@ -45,12 +46,20 @@
 </script>
 
 <template>
-    <section class="flex w-full h-full">
+    <section class="flex w-[97%] h-full">
         <article class="w-[600px] h-[350px] bg-black m-auto rounded-default">
-            <ul class="w-auto flex space-x-3 text-center text-xl cursor-pointer rounded-default justify-center items-center gap-6">
-                <li @click="onChangeTab(item.title)" class="h-auto hover:text-cyan-500 border-transparent border-b-2 hover:border-b-cyan-500 hover:transition duration-500" v-for="item in COUNTDOWN_MODE" :key="item.id" >{{ item.title }}</li>
+            <ul class="w-auto flex space-x-3 text-center text-xl cursor-pointer rounded-default justify-center items-center gap-6 menu">
+                <li 
+                    @click="onChangeTab(item.title)" 
+                    :class="{ 'tab-active': activeTab === item.title }"
+                    class="block item h-auto hover:text-cyan-500 border-transparent border-b-2 hover:border-b-cyan-500 hover:transition duration-500"
+                    v-for="item in COUNTDOWN_MODE" 
+                    :key="item.id"
+                >
+                    {{ item.title }}
+                </li>
             </ul>
-            <CircularProgressBar
+            <NormalTimer
                 :isActive="isActive"
                 :mode="mode"
                 :remainingTime="remainingTime"
@@ -62,5 +71,15 @@
 </template>
 
 <style scoped>
+
+.tab-active {
+    @apply text-cyan-500 border-transparent border-b-2 border-b-cyan-500
+}
+
+.menu:has(.item:hover) .item:not(:hover) {
+    color: #8f8f8f;
+    border-bottom: 2px solid transparent;
+    opacity: 0.5;
+}
 
 </style>
