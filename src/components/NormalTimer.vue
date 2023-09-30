@@ -25,7 +25,7 @@ const handleTimeCountDown = () => {
                     {{ !isActive ? 'Start' : 'Pause' }}
                 </span>
             </button> -->
-            <button @click="handleTimeCountDown" class="btn w-[100px] m-auto relative inline-block text-light text-base font-medium border-none py-[10xp] px-[25px] mr-[60px] leading-10 shadow-activeButton transition-all duration-300 ease-in hover:bg-transparent">
+            <button @click="handleTimeCountDown" class="btn w-[100px] relative inline-block text-light text-base font-medium border-none py-[10xp] px-[25px] m-auto leading-10 shadow-activeButton transition-all duration-300 ease-in hover:bg-transparent">
                 <span class="relative block w-full h-full">
                     {{ !isActive ? 'Start' : 'Pause' }}
                 </span>
