@@ -17,16 +17,25 @@ const handleTimeCountDown = () => {
 </script>
 
 <template>
-    <div class="w-full h-[300px] bg-gray-800 rounded-default mt-10 flex justify-center items-center flex-wrap">
-        <p class="text-9xl w-full text-center">{{ remainingTime }}</p>
-        <button @click="handleTimeCountDown" class="border w-[200px] text-3xl rounded-default p-5 relative overflow-hidden">
-            {{ !isActive ? 'Start' : 'Pause' }}
-        </button>
+    <div class="box relative overflow-hidden h-[350px] bg-custom-gray rounded-[8px] mt-10 flex justify-center items-center flex-wrap ">
+        <div class="form absolute top-[4px] right-[4px] bottom-[4px] left-[4px] z-[2] bg-gray-800 flex-col flex overflow-hidden">
+            <p class="text-9xl w-full text-center mt-[40px]">{{ remainingTime }}</p>
+            <button @click="handleTimeCountDown" class="my-0 mx-auto border w-[200px] text-3xl rounded-default p-5 mt-[40px]">
+                {{ !isActive ? 'Start' : 'Pause' }}
+            </button>
+        </div>
     </div>
 
 </template>
 
 <style scoped>
+    .box::before {
+        @apply content-[''] absolute top-[-50%] left-[-50%] w-full h-[350px] bg-custom-gradient z-[1] animate-animate origin-bottom-right;
+    }
+    .box::after {
+        @apply content-[''] absolute top-[-50%] left-[-50%] w-full h-[350px] bg-custom-gradient z-[1] animate-animate origin-bottom-right; 
+        animation-delay: -3s;
+    }
     /* .button {
         all: unset;
         color: white;

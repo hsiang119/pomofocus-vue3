@@ -45,8 +45,8 @@
 </script>
 
 <template>
-    <section class="flex w-[97%] h-full">
-        <article class="w-[600px] h-[350px] bg-black m-auto rounded-default">
+    <section class="flex w-full h-full">
+        <article class="w-[600px] h-[350px] bg-black m-auto rounded-[8px]">
             <ul class="w-auto flex space-x-3 text-center text-xl cursor-pointer rounded-default justify-center items-center gap-6 menu">
                 <li 
                     @click="onChangeTab(item.title)" 
@@ -63,6 +63,7 @@
                 :mode="mode"
                 :remainingTime="remainingTime"
                 @handle-time-count-down="handleTimeCountDown"
+                class="overflow-hidden"
             />
             
         </article>

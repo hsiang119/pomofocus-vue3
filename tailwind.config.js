@@ -12,9 +12,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        'custom-gray': '#1c1c1c' 
+      },
       backgroundSize: {
         '0-3': '0 3px',
-        'transparent': 'transparent'
+        'transparent': 'transparent',
+      },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff)',
       },
       contrast: {
         20: '20',
@@ -28,7 +34,8 @@ module.exports = {
         primary: "#06b6d4",
         secondary: '#F6FAFB',
         accent: '#F37F15',
-        black: '#040F15'
+        black: '#040F15',
+        light: '#45f3ff'
       },
       maxWidth: {
         '1200': '1200px',
@@ -39,7 +46,8 @@ module.exports = {
         fadeIn: 'fadeIn 0.5s ease-in both',
 				fadeDownIn: 'fadeDownIn 0.5s ease-in both',
 				fadeLeftIn: 'fadeLeftIn 0.5s ease-in both',
-        letterMove: 'letterMove 2.5s infinite alternate ease-in-out'
+        letterMove: 'letterMove 2.5s infinite alternate ease-in-out',
+        animate: 'animate 6s linear infinite'
       },
       keyframes: {
         fadeIn: {
@@ -57,11 +65,12 @@ module.exports = {
         letterMove: {
           'from': { letterSpacing: '-0.5rem', filter: 'blur(20px)' },
           'to': { letterSpacing: '0.5rem', filter: 'blur(0)' },
+        },
+        animate: {
+          '0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' }
         }
       },
-      zIndex: {
-				'-1': '-1',
-			},
       borderRadius: {
         default: '10px'
       },
