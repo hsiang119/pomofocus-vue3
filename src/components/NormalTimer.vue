@@ -53,10 +53,10 @@ const handleTimeCountDown = () => {
     }
 
     .btn::before {
-        @apply right-0 top-0
+        @apply right-0 top-0 h-full
     }
     .btn::after {
-        @apply left-0 bottom-0
+        @apply left-0 bottom-0 h-full
     }
 
     .btn:hover:before {
