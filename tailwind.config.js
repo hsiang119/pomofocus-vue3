@@ -75,7 +75,8 @@ module.exports = {
         default: '10px'
       },
       boxShadow: {
-        'burger' : '0px 2px 5px rgba(255,101,47,.2)'
+        'burger' : '0px 2px 5px rgba(255,101,47,.2)',
+        'activeButton': '0 0 5px #45f3ff'
       }
     },
   },

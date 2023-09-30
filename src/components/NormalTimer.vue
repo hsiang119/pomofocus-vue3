@@ -20,8 +20,15 @@ const handleTimeCountDown = () => {
     <div class="box relative overflow-hidden h-[350px] bg-custom-gray rounded-[8px] mt-10 flex justify-center items-center flex-wrap ">
         <div class="form absolute top-[4px] right-[4px] bottom-[4px] left-[4px] z-[2] bg-gray-800 flex-col flex overflow-hidden">
             <p class="text-9xl w-full text-center mt-[40px]">{{ remainingTime }}</p>
-            <button @click="handleTimeCountDown" class="my-0 mx-auto border w-[200px] text-3xl rounded-default p-5 mt-[40px]">
-                {{ !isActive ? 'Start' : 'Pause' }}
+            <!-- <button @click="handleTimeCountDown" class="btn my-0 mx-auto border w-[200px] text-3xl rounded-default p-5 mt-[40px]">
+                <span>
+                    {{ !isActive ? 'Start' : 'Pause' }}
+                </span>
+            </button> -->
+            <button @click="handleTimeCountDown" class="btn w-[100px] m-auto relative inline-block text-light text-base font-medium border-none py-[10xp] px-[25px] mr-[60px] leading-10 shadow-activeButton transition-all duration-300 ease-in hover:bg-transparent">
+                <span class="relative block w-full h-full">
+                    {{ !isActive ? 'Start' : 'Pause' }}
+                </span>
             </button>
         </div>
     </div>
@@ -36,16 +43,51 @@ const handleTimeCountDown = () => {
         @apply content-[''] absolute top-[-50%] left-[-50%] w-full h-[350px] bg-custom-gradient z-[1] animate-animate origin-bottom-right; 
         animation-delay: -3s;
     }
-    /* .button {
-        all: unset;
-        color: white;
-        border: 2px solid white;
-    }
-    .button::after {
-        @apply after:content-[''] after:absolute after:w-[50px] after:h-[300%] after:top-[-100%] after:left-[-50%] after:bg-white after:opacity-10 after:origin-center after:-rotate-45 after:transition after:duration-200 after:ease-in
+
+    .btn::after {
+        @apply content-[''] absolute h-[0px] w-[2px] bg-light shadow-activeButton transition-all duration-500 ease-in
     }
 
-    .button:hover::after {
-        @apply left-[120%]
-    } */
+    .btn::before {
+        @apply content-[''] absolute h-[0px] w-[2px] bg-light shadow-activeButton transition-all duration-500 ease-in
+    }
+
+    .btn::before {
+        @apply right-0 top-0
+    }
+    .btn::after {
+        @apply left-0 bottom-0
+    }
+
+    .btn:hover:before {
+        @apply transition-all duration-300 ease-in
+    }
+
+    .btn:hover:after {
+        @apply transition-all duration-300 ease-in
+    }
+
+    .btn span::before{
+        @apply absolute content-[''] bg-light shadow-light transition-all duration-500 ease-in
+    }
+    .btn span::after{
+        @apply absolute content-[''] bg-light shadow-light transition-all duration-500 ease-in
+    }
+
+    .btn span::before{
+        @apply left-0 top-0 w-0 h-[2px] 
+    }
+
+    .btn span::after{
+        @apply right-0 bottom-0 w-0 h-[2px] 
+    }
+
+    .btn span:hover::before{
+        @apply w-full
+    }
+
+    .btn span:hover::after{
+        @apply w-full
+    }
+    
 </style>
