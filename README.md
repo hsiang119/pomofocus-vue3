@@ -12,6 +12,7 @@
 -   Pinia
 -   TypeScript
 -   Tailwind CSS
+-   Vitest
 
 ## 更新日誌 - change log
 
