@@ -1,4 +1,4 @@
-# [番茄鐘 Pomodoro Technique | 個人作品 Side Project]
+# [番茄鐘 Pomodoro Technique | 個人作品 Side Project](https://hsiang119.github.io/pomofocus-vue3/)
 
 ## 簡述 - introduce
 
@@ -16,12 +16,10 @@
 ## 更新日誌 - change log
 
 -   2023/09/28 三種狀態的時間倒數功能
+-   2023/10/01 補Unit Test
 
 ## 功能需求 - functional requirements
 
 -  時間倒數功能 ✓
--  Google登入
--  資料視覺化 (預計使用d3.js)
--  分享功能
--  導入PWA技術
+-  待續...
 
