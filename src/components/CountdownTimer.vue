@@ -1,10 +1,10 @@
 <script setup lang="ts">
-    import { ref, type Ref, onMounted } from "vue";
+    import { ref, type Ref} from "vue";
     import NormalTimer from "./NormalTimer.vue";
     import { useTimerStore } from "../stores/useTimerStore";
     import { storeToRefs } from "pinia";
     import { useCountDown } from "@/composables/useCountDown";
-    import type { countdown_mode, NotifyConfig } from "@/types";
+    import type { countdown_mode } from "@/types";
 
 
     const time = useTimerStore();
