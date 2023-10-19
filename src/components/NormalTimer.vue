@@ -20,11 +20,6 @@ const handleTimeCountDown = () => {
     <div class="box relative overflow-hidden h-[350px] bg-custom-gray rounded-[8px] mt-10 flex justify-center items-center flex-wrap ">
         <div class="form absolute top-[4px] right-[4px] bottom-[4px] left-[4px] z-[2] bg-gray-800 flex-col flex overflow-hidden">
             <p class="text-9xl w-full text-center mt-[40px]">{{ remainingTime }}</p>
-            <!-- <button @click="handleTimeCountDown" class="btn my-0 mx-auto border w-[200px] text-3xl rounded-default p-5 mt-[40px]">
-                <span>
-                    {{ !isActive ? 'Start' : 'Pause' }}
-                </span>
-            </button> -->
             <button @click="handleTimeCountDown" class="btn w-[100px] relative inline-block text-light text-base font-medium border-none py-[10xp] px-[25px] m-auto leading-10 shadow-activeButton transition-all duration-300 ease-in hover:bg-transparent">
                 <span class="relative block w-full h-full">
                     {{ !isActive ? 'Start' : 'Pause' }}

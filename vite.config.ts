@@ -23,5 +23,10 @@ export default defineConfig({
     postcss: {
       plugins: [require("tailwindcss"), require("autoprefixer")]
     }
+  },
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+    }
   }
 })
