@@ -163,9 +163,23 @@ const atSignInWithGoogle = () => {
                         Login
                     </button>
 
-                    <hr class="border-dashed mt-5">
+                    <hr
+                        :class="[
+                            animate ? 'animation ease-linear duration-700 -translate-x-[120%] delay-300 opacity-0 filter blur-[10px]' : '!delay-2400',
+                            'ease-linear duration-700 border-dashed mt-5 filter-[10px]'
+                        ]"
+                    >
 
-                    <button @click="atSignInWithGoogle" class="mt-5 border-2 border-white outline-none rounded-[40px] w-full h-[40px] hover:shadow-neon">Login With Google</button>
+                    <button
+                        @click="atSignInWithGoogle"
+                        :class="[
+                            animate ? 'animation ease-linear duration-700 -translate-x-[120%] delay-300 opacity-0 filter blur-[10px]' : '!delay-2400',
+                            'ease-linear duration-700 mt-5 border-2 border-white outline-none rounded-[40px] w-full h-[40px] hover:shadow-neon'
+                        ]"
+                    >
+                        <font-awesome-icon :icon="['fab', 'google']" class="mr-4"/>
+                        Login With Google
+                    </button>
 
                     <div 
                         :class="[
