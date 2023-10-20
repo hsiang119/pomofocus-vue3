@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useUserStore } from "../stores/useUserStore";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
+import { useRouter, onBeforeRouteLeave } from "vue-router";
 
 const router = useRouter();
 const auth = getAuth();
@@ -65,6 +65,15 @@ const atSignInWithGoogle = () => {
         });
 }
 
+// onBeforeRouteLeave(() => {
+//     if (getAuth().currentUser) return true
+//     const answer = window.confirm(
+//         'Do you really want to leave? you have unsaved changes!'
+//     )
+//     // 取消导航并停留在同一页面上
+//     if (!answer) return false
+// })
+
 
 </script>
 
@@ -103,7 +112,7 @@ const atSignInWithGoogle = () => {
                     ]"
                 >Login</h2>
 
-                <form @submit.stop.prevent="">
+                <form @submit.prevent="">
                     <div 
                         :class="[
                             animate ? 'animation ease-linear duration-700 -translate-x-[120%] delay-100 opacity-0 filter blur-[10px]' : '!delay-2200',
@@ -189,10 +198,10 @@ const atSignInWithGoogle = () => {
                     >
                         <p>
                             Don't have an account?
-                            <a 
-                                href="#" 
+                            <a
+                                
                                 @click="changeActive" 
-                                :class="['ml-3', 'register-link', 'text-primary', 'decoration-[none]', 'font-semibold', 'hover:underline']"
+                                :class="['ml-3', 'register-link', 'text-primary', 'decoration-[none]', 'font-semibold', 'hover:underline', 'cursor-pointer']"
                             >
                                 Sign Up
                             </a>
@@ -299,26 +308,32 @@ const atSignInWithGoogle = () => {
                 Sign Up
             </h2>
 
-                <form action="#">
+                <form @submit.prevent="">
 
-                    <div :class="[
-                        animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-1900' : '!delay-200',
-                        'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'input-box', 'relative', 'w-full', 'h-[50px]', 'my-[25px]', 'mx-0'
-                        ]">
-                        <input
-                        type="text"
-                        required 
+                    <div
                         :class="[
-                            'w-full', 'h-full', 'bg-transparent', 'outline-none', 'border-b-2', 'border-b-white', 'duration-500', 'focus:border-b-primary', 'text-white', 'p-[10px]'
+                            animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-1900' : '!delay-200',
+                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'input-box', 'relative', 'w-full', 'h-[50px]', 'my-[25px]', 'mx-0'
                         ]"
-                        @focus="handleEmailFocus"
-                        @blur="handleEmailBlur"
+                    >
+                        <input
+                            type="email"
+                            required 
+                            :class="[
+                                'w-full', 'h-full', 'bg-transparent', 'outline-none', 'border-b-2', 'border-b-white', 'duration-500', 'focus:border-b-primary', 'text-white', 'p-[10px]'
+                            ]"
+                            @focus="handleEmailFocus"
+                            @blur="handleEmailBlur"
+                            
                         />
-                        <label :class="[
-                            'absolute', 'top-[50%]', 'left-0', 'text-base', 'text-white', 'transform', '-translate-y-1/2', 'pointer-events-none', 'duration-500',
-                            emailFocusedOrValid ? '!-top-[5px] !text-primary' : ''
-                        ]">
-                        Email
+                        <label 
+                            :class="[
+                                'absolute', 'top-[50%]', 'left-0', 'text-base', 'text-white', 'transform', '-translate-y-1/2', 'pointer-events-none', 'duration-500',
+                                emailFocusedOrValid ? '!-top-[5px] !text-primary' : ''
+                            ]"
+                        >
+                            Email
+                            
                         </label>
                     </div>
 
@@ -357,7 +372,7 @@ const atSignInWithGoogle = () => {
                         ]">
                         <p>
                             Already have an account?
-                            <a @click="isNotActive" href="#" class="ml-3 register-link text-primary decoration-[none font-semibold] hover:underline">Login</a>
+                            <a @click="isNotActive" class="ml-3 register-link text-primary decoration-[none font-semibold] hover:underline cursor-pointer">Login</a>
                         </p>
                     </div>
                 </form>
