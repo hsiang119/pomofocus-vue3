@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 import HomeView from '@/views/HomeView.vue'
 import LoginPage from "@/views/LoginPage.vue";
 import AnalysisReport from "@/views/AnalysisReport.vue";
+import CustomSetting from "@/views/CustomSetting.vue";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const router = createRouter({
@@ -22,6 +23,14 @@ const router = createRouter({
       path: '/analysis',
       name: 'analysis',
       component: AnalysisReport,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: CustomSetting,
       meta: {
         requiresAuth: true
       }

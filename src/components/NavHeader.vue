@@ -49,8 +49,8 @@ onMounted(() => {
           <ul class="flex">
               <li v-for="item in NAV_ITEMS" :key="item.id" class="leading-loose ml-5 min-h-full transition-transform transition-shadow duration-300 hover:translate-y-[2px] active:translate-y-[5px]">
                   <RouterLink v-if="item.name.toLowerCase() === 'login'" to="/login" class="text-base max-w-prose nav-item" >{{ item.name }}</RouterLink>
-                  <RouterLink v-else-if="item.name.toLowerCase() !== 'analysis'" :to="`/${item.name.toLowerCase()}`" class="text-base max-w-prose nav-item ">{{ item.name }}</RouterLink>
-                  <RouterLink v-else-if="isLogin && item.name.toLowerCase() === 'analysis'" :to="`/`" class="text-base max-w-prose nav-item" >{{ item.name }}</RouterLink>
+                  <!-- <RouterLink v-else-if="item.name.toLowerCase() !== 'analysis'" :to="`/${item.name.toLowerCase()}`" class="text-base max-w-prose nav-item ">{{ item.name }}</RouterLink> -->
+                  <RouterLink v-else-if="isLogin && item.name.toLowerCase() !== 'login'" :to="`/${item.name.toLowerCase()}`" class="text-base max-w-prose nav-item" >{{ item.name }}</RouterLink>
                   <!-- <RouterLink v-else-if="isLogin && item.name.toLowerCase() === 'Sign Out'" :to="`/`" class="text-base max-w-prose nav-item" >{{ item.name }}</RouterLink> -->
                 </li>
           </ul>
