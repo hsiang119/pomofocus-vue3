@@ -16,6 +16,11 @@ const passwordFocusedOrValid = ref<boolean>(false);
 const emailFocusedOrValid = ref<boolean>(false);
 const isActive = ref<boolean>(false);
 const animate = ref<boolean>(false);
+const loginEmail = ref<string>("");
+const loginPassword = ref<string>("");
+const signupEmail = ref<string>("");
+const signupPassword = ref<string>("");
+
 
 const handleUsernameFocus = (): void => {
     usernameFocusedOrValid.value = true;
@@ -64,14 +69,33 @@ const atSignInWithGoogle = () => {
         });
 }
 
-// onBeforeRouteLeave(() => {
-//     if (getAuth().currentUser) return true
-//     const answer = window.confirm(
-//         'Do you really want to leave? you have unsaved changes!'
-//     )
-//     // 取消导航并停留在同一页面上
-//     if (!answer) return false
-// })
+const validateForm = () => {
+    return new Promise((resolve) => {
+        const hasValues = loginEmail.value || loginPassword.value || signupEmail.value || signupPassword.value;
+        resolve(hasValues);
+    })
+}
+
+onBeforeRouteLeave(async (to, from, next) => {
+    if (getAuth().currentUser) {
+        next();
+        return;
+    }
+
+    const formIsValid = await validateForm();
+
+    if (formIsValid) {
+        const answer = window.confirm(
+            'Do you really want to leave? You have unsaved changes!'
+        )
+        if (!answer) {
+            next(false);
+            return;
+        }
+    }
+
+    next();
+});
 
 
 </script>
@@ -119,11 +143,12 @@ const atSignInWithGoogle = () => {
                         ]"
                     >                        
                         <input
-                            type="text"
+                            type="email"
                             required
                             :class="['w-full', 'h-full', 'bg-transparent', 'outline-none', 'border-b-2', 'border-b-white', 'duration-500', 'focus:border-b-primary', 'text-white', 'p-[10px]']"
                             @focus="handleUsernameFocus"
                             @blur="handleUsernameBlur"
+                            v-model="loginEmail"
                         />
 
                         <label 
@@ -132,7 +157,7 @@ const atSignInWithGoogle = () => {
                                 usernameFocusedOrValid ? '!-top-[5px] !text-primary' : ''
                             ]"
                         >
-                            Username
+                            Email
                         </label>
 
                     </div>
@@ -149,6 +174,7 @@ const atSignInWithGoogle = () => {
                             :class="['w-full', 'h-full', 'bg-transparent', 'outline-none', 'border-b-2', 'border-b-white', 'duration-500', 'focus:border-b-primary', 'text-white', 'p-[10px]']"
                             @focus="handlePasswordFocus"
                             @blur="handlePasswordBlur"
+                            v-model="loginPassword"
                         />
 
                         <label 
@@ -197,13 +223,13 @@ const atSignInWithGoogle = () => {
                     >
                         <p>
                             Don't have an account?
-                            <a
-                                
+                            <button
+                                type="button"
                                 @click="changeActive" 
                                 :class="['ml-3', 'register-link', 'text-primary', 'decoration-[none]', 'font-semibold', 'hover:underline', 'cursor-pointer']"
                             >
                                 Sign Up
-                            </a>
+                            </button>
                         </p>
                     </div>
 
@@ -323,7 +349,7 @@ const atSignInWithGoogle = () => {
                             ]"
                             @focus="handleEmailFocus"
                             @blur="handleEmailBlur"
-                            
+                            v-model="signupEmail"
                         />
                         <label 
                             :class="[
@@ -341,13 +367,14 @@ const atSignInWithGoogle = () => {
                         'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'input-box', 'relative', 'w-full', 'h-[50px]', 'my-[25px]', 'mx-0'
                         ]">
                         <input
-                        type="password"
-                        required 
-                        :class="[
-                            'w-full', 'h-full', 'bg-transparent', 'outline-none', 'border-b-2', 'border-b-white', 'duration-500', 'focus:border-b-primary', 'text-white', 'p-[10px]'
-                        ]"
-                        @focus="handlePasswordFocus"
-                        @blur="handlePasswordBlur"
+                            type="password"
+                            required 
+                            :class="[
+                                'w-full', 'h-full', 'bg-transparent', 'outline-none', 'border-b-2', 'border-b-white', 'duration-500', 'focus:border-b-primary', 'text-white', 'p-[10px]'
+                            ]"
+                            @focus="handlePasswordFocus"
+                            @blur="handlePasswordBlur"
+                            v-model="signupPassword"
                         />
                         <label :class="[
                             'absolute', 'top-[50%]', 'left-0', 'text-base', 'text-white', 'transform', '-translate-y-1/2', 'pointer-events-none', 'duration-500',
@@ -371,7 +398,7 @@ const atSignInWithGoogle = () => {
                         ]">
                         <p>
                             Already have an account?
-                            <a @click="isNotActive" class="ml-3 register-link text-primary decoration-[none font-semibold] hover:underline cursor-pointer">Login</a>
+                            <button type="button" @click="isNotActive" class="ml-3 register-link text-primary decoration-[none font-semibold] hover:underline cursor-pointer">Login</button>
                         </p>
                     </div>
                 </form>
