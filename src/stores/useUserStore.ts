@@ -27,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
     function signOutWithGoogle(): void {
         signOut(auth)
         .then((res) => {
-            console.log(res);
+            // console.log(res);
             isLogin.value = false
         }).catch((error) => {
             console.log(error);
@@ -35,13 +35,11 @@ export const useUserStore = defineStore('user', () => {
     }
 
     function signInWithGoogle(): void {
-        console.log("登入");
+        // console.log("登入");
         signInWithPopup(auth, provider)
         .then((result) => {
-            console.log("幹");
-            console.log(result);
+            // console.log(result);
             isLogin.value = true;
-            // router.push("/");
         }).catch((error) => {
             console.log(error);
         });

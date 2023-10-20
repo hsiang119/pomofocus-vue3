@@ -56,8 +56,7 @@ const isNotActive = () => {
 const atSignInWithGoogle = () => {
     signInWithPopup(auth, provider)
         .then((result) => {
-            console.log("幹");
-            console.log(result);
+            // console.log(result);
             isLogin.value = true;
             router.push("/");
         }).catch((error) => {
