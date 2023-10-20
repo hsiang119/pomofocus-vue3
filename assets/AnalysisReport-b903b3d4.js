@@ -1,1 +1,0 @@
-import{_ as e,c as t,e as c}from"./index-664f7a66.js";const s={},n={class:"flex justify-center items-center"};function r(o,a){return t(),c("main",n," 努力趕工中，尚無數據可以呈現。 ")}const f=e(s,[["render",r]]);export{f as default};
