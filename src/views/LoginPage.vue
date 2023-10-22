@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref} from "vue";
 import { useUserStore } from "../stores/useUserStore";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { storeToRefs } from "pinia";
-import { useRouter, onBeforeRouteLeave } from "vue-router";
+import { getAuth } from "firebase/auth";
+import { onBeforeRouteLeave } from "vue-router";
+import { validatePasswordCharacters, validateEmail } from "@/utils/common";
+// import GlobalToast from "@/components/GlobalToast.vue";
+import useGlobalToast from "@/composables/useGlobalToast";
 
-const router = useRouter();
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
-const user = useUserStore();
-const { isLogin } = storeToRefs(user);
 
+// const router = useRouter();
+const userStore = useUserStore();
+const toast = useGlobalToast();
+
+// data
 const usernameFocusedOrValid = ref<boolean>(false);
 const passwordFocusedOrValid = ref<boolean>(false);
 const emailFocusedOrValid = ref<boolean>(false);
@@ -22,6 +24,12 @@ const signupEmail = ref<string>("");
 const signupPassword = ref<string>("");
 
 
+const isPasswordValid = computed(() => signupPassword.value.length >= 6)
+const isEmailValid = computed(() => validateEmail(signupEmail.value))
+const isEmailInputFocus = ref<boolean>(false);
+
+
+// Logic
 const handleUsernameFocus = (): void => {
     usernameFocusedOrValid.value = true;
 };
@@ -42,11 +50,13 @@ const handlePasswordBlur = (e: Event) => {
 
 const handleEmailFocus = (): void => {
     emailFocusedOrValid.value = true;
+    isEmailInputFocus.value = true;
 };
 
 const handleEmailBlur = (e: Event): void => {
     const inputElement = e.target as HTMLInputElement;
     emailFocusedOrValid.value = !!inputElement.value;
+    isEmailInputFocus.value = false;
 };
 
 const changeActive = () => {
@@ -59,32 +69,54 @@ const isNotActive = () => {
 }
 
 const atSignInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // console.log(result);
-            isLogin.value = true;
-            router.push("/");
-        }).catch((error) => {
-            console.log(error);
-        });
+    userStore.signInWithGoogle();
 }
 
-const validateForm = () => {
+const atRegisterWithEmailAndPassword = () => {
+    if (!isPasswordValid.value || !isEmailValid.value) {
+        toast.msgHandler("Invaild email or password.", "failure", 1500)
+        return;
+    }
+    userStore.registerWithEmailAndPassword(signupEmail.value, signupPassword.value);
+};
+
+const validateSignUpForm = (): Promise<boolean> => {
     return new Promise((resolve) => {
-        const hasValues = loginEmail.value || loginPassword.value || signupEmail.value || signupPassword.value;
-        resolve(hasValues);
+        const hasValues = signupEmail.value || signupPassword.value;
+        resolve(!!hasValues);
     })
 }
 
+
+const validateSignInForm = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+        const hasValues = loginEmail.value || loginPassword.value;
+        resolve(!!hasValues);
+    })
+}
+
+const atLoginFormSubmit = () => {
+    if (!loginEmail.value || !loginPassword.value) {
+        toast.msgHandler("Invalid email or password!", "failure", 1000);
+        return;
+    }
+    userStore.logInWithEmailAndPassword(loginEmail.value, loginPassword.value)
+}
+
+
+
+
+// Route
 onBeforeRouteLeave(async (to, from, next) => {
     if (getAuth().currentUser) {
         next();
         return;
     }
 
-    const formIsValid = await validateForm();
+    const signUpformIsValid = await validateSignUpForm();
+    const signInformIsValid = await validateSignInForm();
 
-    if (formIsValid) {
+    if (signUpformIsValid || signInformIsValid) {
         const answer = window.confirm(
             'Do you really want to leave? You have unsaved changes!'
         )
@@ -101,6 +133,7 @@ onBeforeRouteLeave(async (to, from, next) => {
 </script>
 
 <template>
+    
     <main class="flex justify-center items-center">
 
         <div 
@@ -135,7 +168,7 @@ onBeforeRouteLeave(async (to, from, next) => {
                     ]"
                 >Login</h2>
 
-                <form @submit.prevent="">
+                <form @submit.prevent="atLoginFormSubmit">
                     <div 
                         :class="[
                             animate ? 'animation ease-linear duration-700 -translate-x-[120%] delay-100 opacity-0 filter blur-[10px]' : '!delay-2200',
@@ -191,7 +224,7 @@ onBeforeRouteLeave(async (to, from, next) => {
                         type="submit"
                         :class="[
                             animate ? 'animation ease-linear duration-700 -translate-x-[120%] delay-300 opacity-0 filter blur-[10px]' : '!delay-2400',
-                            'ease-linear duration-700 btn relative w-full h-[45px] border-2 border-white outline-none rounded-[40px] cursor-pointer text-base text-white font-semibold shadow-neon after:content after:top-0 after:left-0 after:right-0 after:bottom-0 after:bg-primary after:shadow-neon after:opacity-0 hover:after:!opacity-100'
+                            'ease-linear duration-700 btn w-full h-[45px] border border-accent rounded-[40px] cursor-pointer text-base text-white font-semibold shadow-accent'
                         ]"
                     >
                         Login
@@ -200,7 +233,7 @@ onBeforeRouteLeave(async (to, from, next) => {
                     <hr
                         :class="[
                             animate ? 'animation ease-linear duration-700 -translate-x-[120%] delay-300 opacity-0 filter blur-[10px]' : '!delay-2400',
-                            'ease-linear duration-700 border-dashed mt-5 filter-[10px]'
+                            'ease-linear duration-700 border-dashed mt-5 filter-[10px] text-gray-500'
                         ]"
                     >
 
@@ -333,12 +366,12 @@ onBeforeRouteLeave(async (to, from, next) => {
                 Sign Up
             </h2>
 
-                <form @submit.prevent="">
+                <form @submit.prevent="atRegisterWithEmailAndPassword">
 
                     <div
                         :class="[
                             animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-1900' : '!delay-200',
-                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'input-box', 'relative', 'w-full', 'h-[50px]', 'my-[25px]', 'mx-0'
+                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'relative', 'w-full', 'h-[50px]', 'my-[20px]', 'mx-0'
                         ]"
                     >
                         <input
@@ -350,6 +383,7 @@ onBeforeRouteLeave(async (to, from, next) => {
                             @focus="handleEmailFocus"
                             @blur="handleEmailBlur"
                             v-model="signupEmail"
+                            @input="validateEmail(signupEmail)"
                         />
                         <label 
                             :class="[
@@ -358,14 +392,27 @@ onBeforeRouteLeave(async (to, from, next) => {
                             ]"
                         >
                             Email
-                            
                         </label>
                     </div>
 
-                    <div :class="[
-                        animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-2000' : '!delay-300',
-                        'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'input-box', 'relative', 'w-full', 'h-[50px]', 'my-[25px]', 'mx-0'
-                        ]">
+                    <span
+                        :class="[
+                            isEmailValid ? 'text-white' : 'text-gray-400',
+                            animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-1900' : '',
+                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'block', 'mb-4', 
+                        ]"
+                    >
+                        <font-awesome-icon v-if="isEmailValid" :icon="['far', 'circle-check']" class="text-green-500 mr-1" />
+                        <font-awesome-icon v-else :icon="['far', 'circle-xmark']" class="text-gray-400 mr-1"/>
+                        <span :class="[isEmailValid ? 'text-white' : 'text-gray-400', 'text-xs']">Valid email format.</span>
+                    </span>
+                    
+                    <div 
+                        :class="[
+                            animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-2000' : '!delay-300',
+                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'input-box', 'relative', 'w-full', 'h-[50px]', 'my-[20px]', 'mx-0', 'mb-4'
+                        ]"
+                    >
                         <input
                             type="password"
                             required 
@@ -375,23 +422,40 @@ onBeforeRouteLeave(async (to, from, next) => {
                             @focus="handlePasswordFocus"
                             @blur="handlePasswordBlur"
                             v-model="signupPassword"
+                            @input="validatePasswordCharacters(signupPassword)"
                         />
-                        <label :class="[
-                            'absolute', 'top-[50%]', 'left-0', 'text-base', 'text-white', 'transform', '-translate-y-1/2', 'pointer-events-none', 'duration-500',
-                            passwordFocusedOrValid ? '!-top-[5px] !text-primary' : ''
-                        ]">
-                        Password
+                        <label 
+                            :class="[
+                                'absolute', 'top-[50%]', 'left-0', 'text-base', 'text-white', 'transform', '-translate-y-1/2', 'pointer-events-none', 'duration-500',
+                                passwordFocusedOrValid ? '!-top-[5px] !text-primary' : ''
+                            ]"
+                        >
+                            Password
                         </label>
                     </div>
+                    <span 
+                        :class="[
+                            isPasswordValid ? 'text-white' : 'text-gray-400',
+                            animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-2000' : '!delay-300',
+                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'mt-4', 'block', 
+                        ]"
+                    >
+                        <font-awesome-icon v-if="isPasswordValid" :icon="['far', 'circle-check']" class="text-green-400 mr-1" />
+                        <font-awesome-icon v-else :icon="['far', 'circle-xmark']" class="text-gray-400 mr-1"/>
+                        <span :class="[isPasswordValid ? 'text-white' : 'text-gray-400', 'text-xs']">Password should be at least 6 characters.</span>
+                        
+                    </span>
 
                     <button 
                         type="submit"
                         :class="[
-                        animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-2100' : '!delay-400', 
-                        'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'btn', 'relative', 'w-full', 'h-[45px]', 'border-2', 'border-white', 'outline-none', 'rounded-[40px]', 'cursor-pointer', 'text-base', 'text-white', 'font-semibold', 'shadow-neon', 'after:content', 'after:top-0', 'after:left-0', 'after:right-0', 'after:bottom-0', 'after:bg-primary', 'after:shadow-neon', 'after:opacity-0', 'hover:after:!opacity-100'
-                        ]">
+                            animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-2100' : '!delay-400', 
+                            'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'btn', 'relative', 'w-full', 'h-[45px]', 'border-2', 'border-accent', 'outline-none', 'rounded-[40px]', 'cursor-pointer', 'text-base', 'text-white', 'font-semibold', 'shadow-accent', 'after:content', 'after:top-0', 'after:left-0', 'after:right-0', 'after:bottom-0', 'after:bg-primary', 'after:shadow-neon', 'after:opacity-0', 'hover:after:!opacity-100', 'mt-10'
+                        ]"
+                    >
                         Sign Up
                     </button>
+
                     <div :class="[
                             animate ? '!translate-x-0 !opacity-100 !filter !blur-0 delay-2200' : '!delay-500', 
                             'opacity-0', 'filter', 'blur-[10px]', 'duration-700', 'translate-x-[120%]', 'logreg-link', 'text-[14.5px]', 'text-white', 'text-center', 'mt-5'
@@ -427,5 +491,8 @@ onBeforeRouteLeave(async (to, from, next) => {
         </div>
 
     </main>
-
 </template>
+
+<style scoped>
+    
+</style>
