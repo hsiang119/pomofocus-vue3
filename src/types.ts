@@ -18,4 +18,7 @@ export interface NotifyConfig {
 export interface NavItem {
     id: string;
     name: string;
+    icon?: string;
 }
+
+export type toastType = 'success' | 'failure' | ''
