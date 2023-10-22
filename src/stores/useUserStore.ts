@@ -1,12 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// import { useRouter } from "vue-router";
+import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import useGlobalToast from "@/composables/useGlobalToast";
+import router from '@/router';
 
 // 確保只初始化一次，故提出來
-// const router = useRouter();
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
+const toast = useGlobalToast();
 
 export const useUserStore = defineStore('user', () => {
     const isLogin = ref<boolean>(false);
@@ -26,24 +27,56 @@ export const useUserStore = defineStore('user', () => {
 
     function signOutWithGoogle(): void {
         signOut(auth)
-        .then((res) => {
-            // console.log(res);
-            isLogin.value = false
-        }).catch((error) => {
-            console.log(error);
-        });
+            .then(() => {
+                isLogin.value = false;
+                toast.msgHandler("You have successfully signed out.", "success", 3000)
+            }).catch((error) => {
+                console.log(error);
+                isLogin.value = true;
+                toast.msgHandler(error.code, "failure", 3000)
+            });
     }
 
     function signInWithGoogle(): void {
-        // console.log("登入");
         signInWithPopup(auth, provider)
-        .then((result) => {
-            // console.log(result);
+            .then(() => {
+                isLogin.value = true;
+                router.push('/')
+                toast.msgHandler("Login success!", "success", 3000)
+            }).catch((error) => {
+                console.log(error);
+                isLogin.value = false;
+                toast.msgHandler(error.code, "failure", 3000);
+            });
+    }
+
+    function logInWithEmailAndPassword(email: string, password: string): void {
+        signInWithEmailAndPassword(auth, email, password)
+            .then(res => {
+                console.log(res);
+                isLogin.value = true;
+                router.push('/')
+                toast.msgHandler("Login success!", "success", 3000)
+            })
+            .catch(error => {
+                console.log(error);
+                isLogin.value = false;
+                toast.msgHandler(error.code, 'failure', 3000)
+            })
+    }
+
+    function registerWithEmailAndPassword(email: string, password: string ) {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
             isLogin.value = true;
-        }).catch((error) => {
-            console.log(error);
+            router.push('/')
+            toast.msgHandler("Registration successful, and you are now logged in.", "success", 3500)
+        })
+        .catch((error) => {
+            isLogin.value = false;
+            toast.msgHandler(error.code, "failure", 3500)
         });
     }
 
-    return { checkIsLogin, signOutWithGoogle, signInWithGoogle, userName, userEmail, isLogin, userPhotoUrl }
+    return { checkIsLogin, signOutWithGoogle, signInWithGoogle, logInWithEmailAndPassword, registerWithEmailAndPassword, userName, userEmail, isLogin, userPhotoUrl }
 })
