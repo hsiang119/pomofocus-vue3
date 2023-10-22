@@ -12,6 +12,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      transform: {
+        'rotateY-360': 'rotateY(360deg)'
+      },
       backgroundColor: {
         'custom-gray': '#1c1c1c' 
       },
@@ -78,8 +81,9 @@ module.exports = {
       boxShadow: {
         'burger' : '0px 2px 5px rgba(255,101,47,.2)',
         'activeButton': '0 0 5px #45f3ff',
-        'neon': `inset 0 0 .5em #0ef, 0 0 .5em #0ef`,
+        'neon': `0 0 .5em #45f3ff, 0 0 .5em #45f3ff`,
         'custom-cyan': '0 0 25px #0ef',
+        'back-home-btn': '0 0 5px #45f3ff, 0 0 20px #45f3ff, 0 0 40px #45f3ff, 0 0 80px #45f3ff'
       },
       transitionDelay: {
         '400': '400ms',
@@ -102,11 +106,22 @@ module.exports = {
         '2400': '2400ms',
         '2500': '2500ms',
         '2600': '2600ms',
+      },
+      textShadow: {
+        'light-back-to-home' : '0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff',
       }
     },
   },
   plugins: [
-    plugin(({ addUtilities, theme, addVariant }) => {
+    plugin(({ matchUtilities, addUtilities, theme, addVariant }) => {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
       const newUtilities = {
         '.flex-center': {
           'display': 'flex',
@@ -133,7 +148,10 @@ module.exports = {
         },
         'underline-trigger-hover': {
           'backgroundSize': '100% 3px'
-        } 
+        },
+        '.rotateY-360': {
+          'transform': 'rotateY(360deg)'
+        }
       };
       addUtilities(newUtilities);
       addVariant('important', ({ container }) => {
