@@ -4,12 +4,14 @@ import { storeToRefs } from 'pinia'
 import { onGetTime } from "../utils/timeFormat";
 
 
+
+const initialState = ref<number>(25 * 60 * 1000);
+const remainingTime = ref<string>('25:00');
+let timer: ReturnType<typeof setInterval> | null = null;
+
 export function useCountDown() {
-    const store = useTimerStore();
-    const { isActive, ...rest } = storeToRefs(store);
-    const initialState = ref<number>(25 * 60 * 1000);
-    const remainingTime = ref<string>('25:00');
-    let timer: ReturnType<typeof setInterval> | null = null;
+  const store = useTimerStore();
+  const { isActive, ...rest } = storeToRefs(store);
 
     const counter = computed((): number => {
       return initialState.value
