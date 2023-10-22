@@ -5,6 +5,7 @@ import AnalysisReport from "@/views/AnalysisReport.vue";
 import CustomSetting from "@/views/CustomSetting.vue";
 import NotFound from "@/views/NotFound.vue";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import useGlobalToast from "@/composables/useGlobalToast";
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,11 +58,14 @@ const getCurrentUser = () => {
   })
 }
 
+const toast = useGlobalToast();
+
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (await getCurrentUser()) {
       next()
     } else {
+      toast.msgHandler("You do not have permission to view this page. Please log in.", "failure", 3000)
       next("/login")
     }
   } else {
