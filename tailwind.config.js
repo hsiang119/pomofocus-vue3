@@ -24,7 +24,7 @@ module.exports = {
       },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff)',
-        'under-background': 'linear-gradient(45deg, #081b29, "#0ef")',
+        'under-background': 'linear-gradient(45deg, #081b29, #0ef)',
       },
       contrast: {
         20: '20',
@@ -83,7 +83,8 @@ module.exports = {
         'activeButton': '0 0 5px #45f3ff',
         'neon': `0 0 .5em #45f3ff, 0 0 .5em #45f3ff`,
         'custom-cyan': '0 0 25px #0ef',
-        'back-home-btn': '0 0 5px #45f3ff, 0 0 20px #45f3ff, 0 0 40px #45f3ff, 0 0 80px #45f3ff'
+        'back-home-btn': '0 0 5px #45f3ff, 0 0 20px #45f3ff, 0 0 40px #45f3ff, 0 0 80px #45f3ff',
+        'accent': `0 0 .5em #F37F15, 0 0 .5em #F37F15`,
       },
       transitionDelay: {
         '400': '400ms',
@@ -133,24 +134,27 @@ module.exports = {
           'background-color': theme('colors.primary'),
           'border': 'none',
           'border-radius': '5px',
-          'color': theme('colors.sencondary'),
+          'color': theme('colors.secondary'),
           'font-size': '16px',
           'box-shadow': '0 2px 5px rgba(0,0,0, 0.2)',
-          'cursor:': 'pointer',
+          'cursor': 'pointer',
         },
-        'underline-trigger': {
+        '.underline-trigger': {
           'background': 'linear-gradient(90deg, #ff3c41, #fc0, #0ebeff)',
           'backgroundSize': '0 3px',
           'backgroundRepeat': 'no-repeat',
           'backgroundPosition': '0 100%',
           'cursor': 'pointer',
-          'transiiton': '1s all'
+          'transition': '1s all'
         },
-        'underline-trigger-hover': {
+        '.underline-trigger-hover': {
           'backgroundSize': '100% 3px'
         },
         '.rotateY-360': {
           'transform': 'rotateY(360deg)'
+        },
+        '.transform-top-center': {
+          'transform-origin': 'top center'
         }
       };
       addUtilities(newUtilities);
