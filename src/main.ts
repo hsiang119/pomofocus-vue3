@@ -3,20 +3,10 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import './assets/main.css'
+import { initializeFontAwesome, FontAwesomeIcon } from "@/plugins/FontAwesome";
 
-/* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core'
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
-
-import { faGoogle } from '@fortawesome/free-brands-svg-icons'
-
-/* add icons to the library */
-library.add(faUserSecret, faGoogle)
+// Initialize FontAwesome
+initializeFontAwesome()
 
 const app = createApp(App)
 
