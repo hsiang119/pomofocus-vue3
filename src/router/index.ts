@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import LoginPage from "@/views/LoginPage.vue";
 import AnalysisReport from "@/views/AnalysisReport.vue";
 import CustomSetting from "@/views/CustomSetting.vue";
+import NotFound from "@/views/NotFound.vue";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const router = createRouter({
@@ -35,6 +36,11 @@ const router = createRouter({
         requiresAuth: true
       }
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
+    }
   ]
 })
 
