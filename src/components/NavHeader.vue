@@ -43,8 +43,12 @@ onMounted(() => {
 <template>
   <header class="flex justify-between h-20 w-[97%] mb-[30px]">
 
-      <h1 class="leading-loose contrast-20 w-[100px] text-center">
+      <!-- <h1 class="leading-loose contrast-20 w-[100px] text-center">
           <RouterLink to="/" class="animate-letterMove whitespace-nowrap">Pomofocus</RouterLink>
+      </h1> -->
+
+      <h1 class="leading-loose contrast-20 w-[100px] text-center">
+          <RouterLink to="/" class="">Pomofocus</RouterLink>
       </h1>
       
       <nav class="animate-fadeIn flex items-center gap-2 max-md:hidden">
