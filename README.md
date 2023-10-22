@@ -13,14 +13,17 @@
 -   TypeScript
 -   Tailwind CSS
 -   Vitest
+-   Firebase
 
 ## 更新日誌 - change log
 
 -   2023/09/28 三種狀態的時間倒數功能
 -   2023/10/01 補Unit Test
+-   2023/10/22 會員系統(Firebase)
 
 ## 功能需求 - functional requirements
 
 -  時間倒數功能 ✓
+-  會員系統功能 ✓
 -  待續...
 
