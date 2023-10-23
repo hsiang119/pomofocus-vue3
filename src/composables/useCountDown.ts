@@ -11,6 +11,8 @@ const remainingTime = ref<string>('25:00');
 let timer: ReturnType<typeof setInterval> | null = null;
 const notify = useNotification()
 
+
+
 export function useCountDown() {
   const store = useTimerStore();
   const { isActive, ...rest } = storeToRefs(store);
@@ -53,8 +55,12 @@ export function useCountDown() {
       if (isActive.value) {
         timer = setInterval(() => {
           initialState.value = counter.value - 1000;
-          remainingTime.value = initialState.value <= 0 ? 'timeup' : onGetTime(initialState.value);
-          if ( initialState.value <= 0 ) notify.sendNotification("Pomofocus", { body: "timeup!" })
+          remainingTime.value = initialState.value <= 0 ? 'Time up' : onGetTime(initialState.value);
+          if (initialState.value <= 0) {
+            notify.sendNotification("Pomofocus", { body: "Time up!" });
+            onStop();
+            store.changeActiveStatus();
+          }
         }, 1000);
       } else {
         initialState.value = counter.value
