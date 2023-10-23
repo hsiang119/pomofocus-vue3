@@ -38,7 +38,6 @@
     }
 
     const handleTimeCountDown = (): void => {
-        useCountDown();
         time.changeActiveStatus();
     }
 
