@@ -12,7 +12,7 @@ export interface countdown_mode {
 
 export interface NotifyConfig {
     body: string, 
-    icon: string,
+    icon?: string,
 }
 
 export interface NavItem {
