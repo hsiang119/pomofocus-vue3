@@ -2,14 +2,13 @@ import { ref, computed, watch, toValue, onUnmounted } from "vue";
 import { useTimerStore } from '../stores/useTimerStore'
 import { storeToRefs } from 'pinia'
 import { onGetTime } from "../utils/timeFormat";
-import useNotification from "@/composables/useNotification";
+import { sendNotification } from "@/utils/common";
 
 
 
 const initialState = ref<number>(25 * 60 * 1000);
 const remainingTime = ref<string>('25:00');
 let timer: ReturnType<typeof setInterval> | null = null;
-const notify = useNotification()
 
 
 
@@ -57,7 +56,7 @@ export function useCountDown() {
           initialState.value = counter.value - 1000;
           remainingTime.value = initialState.value <= 0 ? 'Time up' : onGetTime(initialState.value);
           if (initialState.value <= 0) {
-            notify.sendNotification("Pomofocus", { body: "Time up!" });
+            sendNotification("Pomofocus", { body: "Time up!" });
             onStop();
             store.changeActiveStatus();
           }

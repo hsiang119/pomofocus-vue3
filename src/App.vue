@@ -4,14 +4,13 @@ import { RouterView } from 'vue-router'
 import NavHeader from "./components/NavHeader.vue";
 import GlobalToast from "@/components/GlobalToast.vue";
 import useGlobalToast from "@/composables/useGlobalToast";
-import useNotification from "@/composables/useNotification";
+import { requestPermission } from "@/utils/common";
 
 const toast = useGlobalToast();
-const notify = useNotification();
 
 onMounted( () => {
   toast.component.value = markRaw(GlobalToast);
-  notify.requestPermission();
+  requestPermission();
 })
 
 </script>
