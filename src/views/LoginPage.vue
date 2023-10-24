@@ -6,10 +6,29 @@ import { onBeforeRouteLeave } from "vue-router";
 import { validatePasswordCharacters, validateEmail } from "@/utils/common";
 // import GlobalToast from "@/components/GlobalToast.vue";
 import useGlobalToast from "@/composables/useGlobalToast";
+import { useRouter } from "vue-router";
 
 
-// const router = useRouter();
+const router = useRouter();
 const userStore = useUserStore();
+userStore.$onAction(
+  ({ after }) => {
+    after((result) => {
+    
+      if (result) {
+        switch (result?.operationType) {
+            case "signIn":
+                router.push('/')
+                toast.msgHandler("Login success!", "success", 3000)
+                break;
+        
+            default:
+                break;
+        }
+      } 
+    })
+  }
+)
 const toast = useGlobalToast();
 
 // data

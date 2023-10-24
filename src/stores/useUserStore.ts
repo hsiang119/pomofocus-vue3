@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { UserCredential } from "firebase/auth";
 import { getAuth, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import useGlobalToast from "@/composables/useGlobalToast";
 import router from '@/router';
@@ -11,9 +12,9 @@ const toast = useGlobalToast();
 
 export const useUserStore = defineStore('user', () => {
     const isLogin = ref<boolean>(false);
-    const userName = ref<string>("");
-    const userEmail = ref<string>("");
-    const userPhotoUrl = ref<string>("")
+    const userName = ref<string | null>("");
+    const userEmail = ref<string | null>("");
+    const userPhotoUrl = ref<string | null>("")
     
     function checkIsLogin(): void {
         onAuthStateChanged(auth, (user) => {
@@ -25,28 +26,38 @@ export const useUserStore = defineStore('user', () => {
         });
     }
 
-    function signOutWithGoogle(): void {
-        signOut(auth)
+    function signOutWithGoogle(): Promise<void> {
+        return signOut(auth)
             .then(() => {
                 isLogin.value = false;
+                userName.value = ""
+                userEmail.value = ""
+                userPhotoUrl.value = ""
                 toast.msgHandler("You have successfully signed out.", "success", 3000)
+
             }).catch((error) => {
                 console.log(error);
                 isLogin.value = true;
                 toast.msgHandler(error.code, "failure", 3000)
+                throw error;
+                
             });
     }
 
-    function signInWithGoogle(): void {
-        signInWithPopup(auth, provider)
-            .then(() => {
+    function signInWithGoogle(): Promise<UserCredential> {
+        return signInWithPopup(auth, provider)
+            .then((result) => {
+                const { user } = result;
+                userName.value = user.displayName
+                userEmail.value = user.email
+                userPhotoUrl.value = user.photoURL
                 isLogin.value = true;
-                router.push('/')
-                toast.msgHandler("Login success!", "success", 3000)
+                return result
             }).catch((error) => {
                 console.log(error);
                 isLogin.value = false;
                 toast.msgHandler(error.code, "failure", 3000);
+                throw error;
             });
     }
 

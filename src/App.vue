@@ -20,15 +20,23 @@ onMounted( () => {
 
   <main class="xl:max-w-1200 lg:max-w-1000 md:max-w-600 w-[90vw] mx-auto my-0 h-screen">
     <NavHeader />
-    <transition name="fade" mode="out-in">
+
+    <!-- <transition name="fade" mode="out-in">
       <RouterView/>
-    </transition>
+    </transition> -->
+
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+    
   </main>
 </template>
 
 <style scoped>
   .fade-enter-active, .fade-leave-active {
-        transition: opacity 1s;
+        transition: opacity .3s;
     }
     .fade-enter-from, .fade-leave-to {
         opacity: 0;
