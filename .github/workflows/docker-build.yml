@@ -28,4 +28,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: yourusername/yourappname:latest
+        tags: g8367ay36119/pomofocus-vue3:latest
